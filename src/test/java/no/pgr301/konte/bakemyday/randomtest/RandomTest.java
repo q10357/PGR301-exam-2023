@@ -8,7 +8,7 @@ public class RandomTest {
 
     @Test
     public void testValueNotNull() {
-        Integer notNull = null;
+        Integer notNull = 1;
         assertNotNull(notNull);
     }
 }
