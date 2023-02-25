@@ -1,3 +1,96 @@
+## Del 1 - Prinsipper
+
+### Kontinuerlig integrasjon
+**Kontinuerlig integrasjon** er en praksis som går ut på å la utviklere jobbe på hver sin branch, og regelmessig merge koden sin til main branchen. <br>
+Når utviklerne merger sine endringer til main, skal koden bygges, og tester kjøres. 
+Det er viktig at denne prosessen er **automatisert**. Hvis de automatiserte testene feiler, skal endringene **ikke** merges inn til hovedbranchen. 
+<br>
+Uten kontinuerlig integrasjon, er det lett for dem som arbeider med systemet å bli redd når det kommer til å pushe endringer
+til koden, da ingen ønsker å være den som får systemet til å kræsje.
+Kontinuerlig integrasjon legger til rette for flere andre DevOps praksiser, slik som kontinuerlige leveranser.
+
+
+## Del 2 - GitHub Actions 
+
+Lag en github actions workflow som gjør følgende for hver pull request som lages i ditt repository:
+- [x] Kompilerer koden
+- [x] Kjører enhetstester
+
+Under utvikling har jeg jobbet på branchen 'dev', kontinuerlig laget pull requester, og merget dev branchens commits til main.
+<br>
+Jeg laget en test (som ikke tester noe som helst), for å teste at ci.yml fungerer som tiltenkt.<br>
+Workflow ci.yml (CI pipeline) kjører på hver pull_request.
+
+## Del 3 Docker
+
+- [x] Skriv en multi stage Dockerfile for java-applikasjonen, slik at kompileringen og byggingen kjører i selvstendige Docker containere. 
+
+For at workflow skal fungere må man først sette environment secrets.
+Dette gjøres ved å gå inn på <br>
+github &rarr; settings &rarr; Secrets and Variables &rarr; Actions &rarr; New repository secret <br>
+&nbsp;
+
+#### Sensor kan få workflowen til å fungere enten via 
+1. **Command Line:** (Du må først laste ned github repoet og ha det på egen maskin). <br>
+Deretter kjører du kommandoene
+
+```sh
+git tag 1.0.0
+git push --tags
+```
+&nbsp;
+
+2. **GitHub web interface:** 
+Gå inn på ditt repository -> tags<br>
+&nbsp;<br>
+![img/img.png](img/img_choose_tag.png)<br>
+&nbsp; <br>
+   &rarr; create new release <br>
+&nbsp;
+![img.png](img/img_configure_tagname.png)<br>
+&nbsp; <br>
+Skriv inn navn på tag (her 1.0.0)
+Scroll ned og trykk "Publish release".<br>
+&nbsp;
+
+Da vil workflow "**Docker Build**" automatisk kjøre, du kan se dette ved å trykke på "actions". <br>
+&nbsp;
+![img.png](img/img_actions_docker_build.png)<br>
+
+Et nytt container image skal da pushes til din DockerHub konto, definert av environment secrets.<br>
+&nbsp;
+![img.png](img_dockerhub.png)
+&nbsp;
+
+### Oppgave 3
+
+Etter container image er pushet til din DockerHub konto, puller du det til ditt lokale miljøet med kommandoen:
+
+```sh
+docker pull <docker_username>/<name_container_image>:<tagname>
+```
+
+Du kan da se container image via eks. Docker Desktop. <br>
+&nbsp; <br>
+For å starte ditt container image lokalt kjører du kommando:
+
+```sh
+docker run -p 9999:8080  <docker_username>/<name_container_image>:<tagname>
+```
+
+For å teste at alt fungerer som tiltenkt, gå inn på din browser, og lim inn<br>
+http://localhost:8080/cake-ingredients?numberOfIngredients=23
+<br>I søkefeltet. Da burde du se noe lignende dette: <br> 
+&nbsp;
+![img/img.png](img/img_running_port_9999_localhost.png)
+
+------------------------------
+
+# Eksamenstekst
+&nbsp;
+
+------------------------------
+
 # Konteeksamen  - PGR301
 
 # Scenario
