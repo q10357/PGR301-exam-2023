@@ -40,27 +40,31 @@ git push --tags
 ```
 &nbsp;
 
-2. **GitHub web interface:** 
-Gå inn på ditt repository -> tags<br>
+2. **GitHub web interface:** <br>
+Gå inn på ditt repository &rarr; tags<br>
 &nbsp;<br>
-![img/img.png](img/img_choose_tag.png)<br>
-&nbsp; <br>
+<img src="img/img_choose_tag.png" alt="Choose Tag" width="50%"/>
+&nbsp;<br>
    &rarr; create new release <br>
-&nbsp;
-![img.png](img/img_configure_tagname.png)<br>
+&nbsp;<br>
+<img src="img/img_configure_tagname.png" alt="Tagname" width="50%"/>
 &nbsp; <br>
 Skriv inn navn på tag (her 1.0.0)
 Scroll ned og trykk "Publish release".<br>
 &nbsp;
 
 Da vil workflow "**Docker Build**" automatisk kjøre, du kan se dette ved å trykke på "actions". <br>
-&nbsp;
-![img.png](img/img_actions_docker_build.png)<br>
-
-Et nytt container image skal da pushes til din DockerHub konto, definert av environment secrets.<br>
-&nbsp;
-![img.png](img_dockerhub.png)
-&nbsp;
+&nbsp;<br>
+<img src="img/img_actions_docker_build.png" alt="Github Actions Build" width="70%"/><br>
+&nbsp;<br>
+&nbsp;<br>
+Et nytt container image skal da pushes til din DockerHub konto. <br>
+Hvis du nå logger deg inn på DockerHub med samme brukernavn og passord du tidligere definerte i dine "environment secrets"
+kan du se ditt container image: <br>
+&nbsp;<br>
+<img src="img/img_dockerhub.png" alt="dockerhub image" width="30%"/>
+&nbsp;<br>
+&nbsp;<br>
 
 ### Oppgave 3
 
