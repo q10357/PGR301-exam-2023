@@ -1,55 +1,204 @@
 ## Del 1 - Prinsipper
 
-### Kontinuerlig integrasjon
-**Kontinuerlig integrasjon** er en praksis som går ut på å la utviklere jobbe på hver sin branch, og regelmessig merge koden sin til main branchen. <br>
-Når utviklerne merger sine endringer til main, skal koden bygges, og tester kjøres. 
-Det er viktig at denne prosessen er **automatisert**. Hvis de automatiserte testene feiler, skal endringene **ikke** merges inn til hovedbranchen. 
+### Kontinuerlig integrasjon - hva mener vi med dette, og hvorfor er det viktig?
+**Kontinuerlig integrasjon** (CI), er en praksis som kombinerer prinsipper, verktøy og arbeidsmåter
+for å otimalisere prosessen rundt å merge endringer i kode til et delt repository (intern leveranse).
 <br>
-Uten kontinuerlig integrasjon, er det lett for dem som arbeider med systemet å bli redd når det kommer til å pushe endringer
-til koden, da ingen ønsker å være den som får systemet til å kræsje.
-Kontinuerlig integrasjon legger til rette for flere andre DevOps praksiser, slik som kontinuerlige leveranser.
+&nbsp;<br>
+**Tiden før kontinuerlig integrasjon**<br>
+For å forstå hvorfor kontinuerlig integrasjon har blitt et "must" for dagens IT orginisasjoner, er det viktig at man forstår hvilke problemer
+denne praksisen har som mål å løse.<br>
+
+Tidligere har IT orginisasjoner følgt tradisjonell Vannfall arbeidsmetodikk. <br>
+Vannfall arbeitsmetodikk fungerer slik at kode først utvikles i store batches,
+deretter testes den, for så å settes i produksjon. Disse stegene skjer sekvensielt,
+og det er ikke uvanlig at hver batch inneholder mange måneders arbeid. <br>
+Slike store batch størrelser har ofte svært negative koneskvenser.
+En av disse konsekvensene er forlenget lead time (LT). Dette er tiden som går fra kode er commited, til den deployes til produksjon.<br>
+Ved lang LT, mister man muligheten til å lære fra feil. Det er ingen som lærer noe av
+å bli presentert for en kodefeil de skrev for et halvt år siden. Det er også mer sannsynlig at samme feil
+gjentas. <br>
+Ved større batch størrelser, øker også sannsynligheten for merge konflikter. Dette kan føre til en "downward spiral": når merging av kode
+blir en smertefull prosess, gjør man det sjeldnere. <br>
+Dette fører til at problemene hoper seg opp; hver merge blir mer smertefull enn den forrige.
+Man ender opp med å bruke store mengder tid på å løse disse konfliktene. Dette er tid som kunne blitt brukt på å utvikle nye
+features, eller andre gunstige aktiviteter. <br>
+Når integrasjons prosessen oppleves slik, utvikles ofte ukulturer innen orginisasjonen.
+De ansatte frykter å integrere sine kode endringer til main, da ingen ønsker å være den som får systemet til å kræsje.
+Denne frykten lager et "blame environment". Arbeid under slike kår
+fører til lavere produktivitet, og kan også ha store psykiske belastninger for dem som arbeider med systemet.
+om det er innen IT eller et annet felt.<br>
+
+"An organization’s output is directly related to how it communicates internally" <br>
+-Conoway's Law<br>
+
+Teorien ovenfor kalles "Conoway's law". Denne teorien går ut på at en orginisasjons output (her IT-systemer), reflekterer deres kommunikasjons struktur. 
+En orginisasjon med ukulturer, vil automatisk ha dårligere output. Det å la ver å gjøre endringer i kode i frykt for 
+å få skylden for brekk i kode / systemkollaps, er definivtivt en ukultur. Får å forbedre orginisasjonens output må man, ifølge Conoway's lov, 
+endre denne tankegangen.<br>
+&nbsp;<br>
+**Situasjonen i dag**<br>
+For å løse problemene ovenfor, har orginisasjoner måttet endre sin tilnærming rundt det å utvikle og vedlikeholde IT-systemer.
+Man har migrert fra Vannfall arbeidsmetodikk, til Agile arbeidsmetodikk. Målet er å ha hyppige leveranser, og slik redusere batch størrelser, og ulempene
+store batch størrelser fører til. <br>
+Det er slik praksisen Kontinuerlig Integrasjon ble til. Under nevnes noen av nøkkelprinsippene/metodene som skal til for å tilrettelegge
+kontinuerlig integrasjon, og hvordan det løser problemene ovenfor. <br>
+&nbsp;<br>
+**Trunk based development** - en arbeidsmetode som går ut på å la utviklere jobbe på hver sin branch, og regelmessig (så ofte som mulig) merge koden sin til et delt repository (main).<br>
+Når utvikleren ønsker å merge koden til main, lages en pull request. Da skal koden bygges, og tester kjøres.
+Hvis testene feiler, skal pull requesten avvises med begrunnelse.<br> 
+Slik minsker man batch størrelsen, som igjen minsker sjanser for merge konflikter. <br>
+&nbsp;<br>
+**Automatiserte Tester** - Dette er god praksis i alle prosjekter, men spesielt viktig når man jobber med komplekse systemer. <br>
+Selve definisjonen på et komplekst system er at det ikke finnes en enkelt person som forstår systemet fullt ut. Når ingen forstår systemet fullt ut, kan en utvikler gjøre 
+endringer i en del av koden, uten å forstå hvordan dette påvirker andre deler av koden. Endringene kan føre til at enkelte deler av koden brekker, og kan i verste fall
+føre til system kollaps. Det er derfor svært gunstig å ha automatiserte tester som skjer på hver push/pull request til main, 
+som tester at endringene gjort, ikke fører til at systemet kommer i en "undeployable state".
+<br>
+
+Kontinuerlig integrasjon har også en positiv virkning på **kulturen** rundt det å gjøre endringer i kode. Når
+en utvikler vet at all ny kode/ endringer i gammel kode, kommer til å gå gjennom automatiserte tester
+der eventuelle feil kommer til syne, minskes frykten rundt det å merge kode til main. Utvikleren får også
+rask tilbakemelding på kodekvalitet, og kan lære fra eventuelle feil. <br>
+Når man ikke frykter å gjøre endringer, samtidig som man kontinuerlig lærer fra tidligere feil, dyrkes 
+nytenking og eksperimentering. <br>
+Dette vil ifølge Conoway's lov føre til bedre systemer.<br>
+
+Kontinuerlig integrasjon tilrettelegger for andre DevOps praksiser, slik som kontinuerlige leveranser.<br>
+&nbsp;<br>
+
+
+### Kontinuerlig leveranser hva mener vi med dette, og hvorfor er det viktig?
+
+Kontinuerlige leveranser er en forlengelse av kontinuerlig integrasjon, hvor hensikten er 
+å forenkle/optimalisere "the deployment process", altså det å sette kode inn i produksjon (ekstern leveranse).<br>
+Målet er å gjøre det mulig å deploye kode til produksjon, kun ved et tastetrykk. <br>
+For at dette skal være mulig, må kontinuerlig integrasjon være adoptert av orginisasjonen. 
+Omfattende tester må også være på plass, slik at man minsker risikoen for at noe går galt.
+Det er også mulig å automatisere hele denne prosessen, altså at kode settes i produksjon uten
+noe form for "human intervention". Dette kalles Kontinuerlig Deployment, og er en forlengelse
+av kontinuerlig leveranser.
+<br>
+
+**Automatisere deployment-prosessen**<br>
+Tradisjonelt sett har kode måtte evalueres av en kommite før den settes i produksjon,
+noe som ikke er ideelt da det fører til flere overleveringer (handoffs). For hver overlevering blir kunnskap tapt, da de som evaluerer koden 
+er "far from the source". Ved å automatisere deployment prosessen fjernes disse hierkiske prosessene, lead time (tiden fra koden commites, til den deployes til produksjon) reduseres ,
+og man lar de som er nærmest kjernen, nemlig teamene som daglig utvikler og drifter systemet, følge koden på hvert steg, fra commit, til det settes i produksjon.
+Hyppigere leveranser av mindre størrelser gjør også feilsøking enklere. 
+<br>
+Så hvordan automatiserer vi deployment-prosessen? Man må først ha en forutsigbar måte å gjøre leveranser på. Kun etter man har dokumentert hvert steg prosessen,
+kan den automatiseres. Det er også viktig å sette istand mekanismer som gjør at man kan differansiere mellom deployment og release.<br>
+Før kontinuerlig leveranse, brukte man ofte ordene deployment og release om hverandre. Lead time var som regel såpass lang, at 
+all nødvendig kode for et spesielt feature "release", var på plass til tiden man deployet koden.<br>
+For bedrifter som nå har automatisert sin deployment prosess, og dermed redusert sin deployment lead time, må man differansiere mellom disse begrepene. 
+<br>
+&nbsp;<br>
+Deployment - å ta kompilerte kildekoden inn i et produksjons-miljø.<br>
+Release - å aktivere et feature i produksjon.
+<br>
+&nbsp;<br>
+Man kan altså deploye kode som er deler av et feature/funksjon, uten at man ønsker å aktivere funksjonen for brukere. 
+For å sørge for at brukere ikke får tilgang til disse fragmenterte funksjonene, kan man bruke feature toggles/flags. 
+
+Når man ønsker å gjøre en funksjon tilgjengelig for brukerne (release), er det flere patterns man kan bruke for å gjøre prosessen så effektiv som mulig. (eksempel: Blue-Green release patterns)
+<br>
+
+Så for å oppsummere: <br>
+Kontinuerlig leveranse er en forlengelse av kontinuerlig inegrasjon, hvor målet er å optimalisere leveranse prosessen. Dette gjørs ved å
+automatisere prosessen. Kontinuerlig leveranse er viktig fordi det fjerner presset man tradisjonelt har følt rundt deployment, dette skaper 
+et bedre arbeidsmiljø. Man reduserer også antall overleveringer (handoffs), man lar de som skriver koden følge den helt til produksjon. Reduksjonen 
+i overleveringer vil igjen redusere lead time (LT). Hyppige leveranser tilrettelegger også raskere feedback fra brukere.
+<br>
+&nbsp;<br>
+
+### Forklar hvorfor det er enklere å få innsikt til nøkkelaspektene ved applikasjonen ved å adoptere DevOps, i forhold til Vannfall og et skille mellom drift- og utviklingsteam?
+
+Vannfall arbeitsmetodikk fungerer slik at kode først utvikles i store batches,
+deretter testes den, for så å setes i produksjon. Disse stegene skjer sekvensielt,
+og det er typisk mange måneders arbeid i hver batch. Utviklere får ingen / svært sen tilbakemelding på sin kode.
+Ved agil arbeidsmetodikk kan man la ver å godta kode som ikke inkluderer telemetri, mens dette er mye vanskeligere 
+ved Vannfall arbeidsmetodikk. Siden utviklere ikke er perfekte, er det sannsynlig at flere av orginisasjonens utviklere ikke 
+adopterer denne praksisen. Når man står foran et release, og står ovenfor kritiske problemer slik som merge konflikter, kan telemetri bli nedprioritert.
+
+Hvis man ønsker komplett telemetri er det også problematisk dersom orginisasjonen har et klart skille mellom drift- og utviklingsteam.
+Det skapes "information silos". 
+En informasjon silo er et begrep som brukes for å beskrive en situasjon der informasjon ikke deles mellom
+ulike deler av en orginisasjon. Dette kan føre til ineffektivitet og mangel på koordingering.
+-https://www.finanssenteret.as/hva-er-en-informasjonssilo/
+
+Når drift- og utviklingsteam ikke jobber på tvers av hverandre, kan man ende opp med at drift kun skaper telemetri relevant for drift, og utviklere
+kun skaper telemetri relevant for utviklere. Dette fører til inkomplett telemetri.
+Utviklere må integrere telemetri i sin daglige arbeidsrutine.
 
 
 ## Del 2 - GitHub Actions 
+
+### Oppgave 1 - GitHub actions workflow
 
 Lag en github actions workflow som gjør følgende for hver pull request som lages i ditt repository:
 - [x] Kompilerer koden
 - [x] Kjører enhetstester
 
-Under utvikling har jeg jobbet på branchen 'dev', kontinuerlig laget pull requester, og merget dev branchens commits til main.
+Under utvikling har jeg jobbet på branchen 'dev', kontinuerlig laget pull requester, og merget dev's commiter til main.
 <br>
 Jeg laget en test (som ikke tester noe som helst), for å teste at ci.yml fungerer som tiltenkt.<br>
-Workflow ci.yml (CI pipeline) kjører på hver pull_request.
+Workflow ci.yml (CI pipeline) kjører på hver pull_request.<br>
+&nbsp;<br>
+
+### Oppgave 2 
+Dersom man ønsker å sette beskyttelses mekanismer for main branchen slik at det ikke er mulig å merge en Pull Request inn i main branch uten at koden kompilerer 
+og enhetstester er kjørt uten feil:<br>
+Når du er inne på ditt repository, på GitHubs web interface trykk
+<br>
+- [ ] Settings &rarr; Branches &rarr; Add branch protection rule <br>
+- [ ] På "Branch name pattern", skriver du navne på branchen du ønsker å beskytte, i dette tilfelle skal du skrive "main".
+<br>uten at koden kompilerer og enhetstester kjører uten feil,
+- [ ] huk av "Require a pull request before merging"
+- [ ] etter du har gjort steget ovenfør bør en undermeny poppe opp, her huker du av "Require approvals",
+under ser du teksten "Required number of approvals before merging: 1". Dette er korrekt, da teksten sier vi skal 
+ha godkjennelse fra minst en person.<br>
+- [ ] huk deretter av "Require status checks to pass before merging". Da vil koden måtte kompileres og enhetstester kjøre uten feil (ci.yml).<br>
+- [ ] scroll ned, og trykk "Create"
+
+![img.png](img/img_branch_protection.png)
 
 ## Del 3 Docker
 
+### Oppgave 1
 - [x] Skriv en multi stage Dockerfile for java-applikasjonen, slik at kompileringen og byggingen kjører i selvstendige Docker containere. 
 
-For at workflow skal fungere må man først sette environment secrets.
+
+### Oppgave 2 - Docker hub
+For at workflow skal fungere må man først sette environment secrets: <br>
+DOCKER_HUB_USERNAME - ditt dockerhub brukernavn <br>
+DOCKER_HUB_TOKEN - passordet til din dockerhub konto <br>
+&nbsp;<br>
 Dette gjøres ved å gå inn på <br>
 github &rarr; settings &rarr; Secrets and Variables &rarr; Actions &rarr; New repository secret <br>
 &nbsp;
 
 #### Sensor kan få workflowen til å fungere enten via 
 1. **Command Line:** (Du må først laste ned github repoet og ha det på egen maskin). <br>
-Deretter kjører du kommandoene
+   &nbsp;Deretter kjører du kommandoene
 
 ```sh
 git tag 1.0.0
 git push --tags
 ```
-&nbsp;
+&nbsp;<br>
+Du kans selvølgelig bruke den tagen du lnsker (det trenger ikke være 1.0.0)<br>
 
 2. **GitHub web interface:** <br>
 Gå inn på ditt repository &rarr; tags<br>
 &nbsp;<br>
-<img src="img/img_choose_tag.png" alt="Choose Tag" width="50%"/>
+   &nbsp;<img src="img/img_choose_tag.png" alt="Choose Tag" width="50%"/>
 &nbsp;<br>
-   &rarr; create new release <br>
+   &nbsp;&rarr; create new release <br>
 &nbsp;<br>
-<img src="img/img_configure_tagname.png" alt="Tagname" width="50%"/>
+   &nbsp;<img src="img/img_configure_tagname.png" alt="Tagname" width="50%"/>
 &nbsp; <br>
-Skriv inn navn på tag (her 1.0.0)
+   &nbsp;Skriv inn navn på tag (her 1.0.0).
 Scroll ned og trykk "Publish release".<br>
 &nbsp;
 
@@ -62,7 +211,7 @@ Et nytt container image skal da pushes til din DockerHub konto. <br>
 Hvis du nå logger deg inn på DockerHub med samme brukernavn og passord du tidligere definerte i dine "environment secrets"
 kan du se ditt container image: <br>
 &nbsp;<br>
-<img src="img/img_dockerhub.png" alt="dockerhub image" width="30%"/>
+<img src="img/img_dockerhub.png" alt="dockerhub image" width="40%"/>
 &nbsp;<br>
 &nbsp;<br>
 
@@ -75,23 +224,21 @@ docker pull <docker_username>/<name_container_image>:<tagname>
 ```
 
 Du kan da se container image via eks. Docker Desktop. <br>
-&nbsp; <br>
 For å starte ditt container image lokalt kjører du kommando:
 
 ```sh
 docker run -p 9999:8080  <docker_username>/<name_container_image>:<tagname>
 ```
-
+&nbsp;<br>
 For å teste at alt fungerer som tiltenkt, gå inn på din browser, og lim inn<br>
-http://localhost:8080/cake-ingredients?numberOfIngredients=23
-<br>I søkefeltet. Da burde du se noe lignende dette: <br> 
+http://localhost:9999/cake-ingredients?numberOfIngredients=23
+<br>I søkefeltet. Du burde da se noe lignende dette: <br> 
 &nbsp;
 ![img/img.png](img/img_running_port_9999_localhost.png)
 
 ------------------------------
 
 # Eksamenstekst
-&nbsp;
 
 ------------------------------
 
