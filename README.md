@@ -157,37 +157,116 @@ settings &rarr; Secrets and Variables &rarr; Actions &rarr; New repository secre
 #### Applikasjon
 Du oppretter først et nytt directory, du kan velge navn selv, her går vi for "infra". Deretter en providers.tf fil, hvor du definerer hvem som er provider (her AWS).
 Dette kommer til å se noenlunde slik ut: <br>
-&nbsp;<br>
-<img src="img/img_terraform_provider.png" alt="Provider file" width="350px"/>
-&nbsp;<br>
+```hcl
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.40.0"
+    }
+  }
+}
+```
 Lag deretter en ny fil, variables.tf. ( Det er ikke nødvendig å skrive terraform kode i ulike filer, da all terraform kode prosesseres som en enkelt fil, men vi gjør det for ryddighetens skyld ).
 Her kan du legge inn variabel navn, som emailer og andre verdier som gjentas regelmessig i koden. Slik trenger man kun å gjøre endringer en plass dersom man ønsker å f eks endre email.
 Disse defineres når du kjører terraform plan/ apply. <br>
-&nbsp;<br>
-<img src="img/img_terraform_variables.png" alt="Terraform variables" width="250px"/><br>
-&nbsp;<br>
-Du må deretter konfigurere din backend. Vi kan bruke S3 buckets for å lagre metricsdata.<br>
+```hcl
+variable "bucket_name" {
+   type = string
+}
 
-&nbsp;<br>
-<img src="img/img_terraform_s3_bucket.png" alt="Terraform s3 bucket" width="400px"/><br>
-&nbsp;<br>
+variable "candidate_email"  {
+   type = string
+}
+```
+Vi kan bruke S3 buckets for å lagre metricsdata.<br>
+```hcl
+resource aws_s3_bucket "analyticsbucket" {
+   bucket = "analytics-${var.bucket_name}"
+}
+```
 Ovenfor definerer vi en s3 bucket, denne brukes for å lagre våre metrics.<br>
-&nbsp;<br>
-<img src="img/img_terraform_backend.png" alt="Terraform s3 bucket" width="600px"/><br>
-&nbsp;<br>
+```hcl
+backend "s3" {
+   bucket = "${var.bucket_name}-terraform-state"
+   key = "${var.bucket_name}/${var.bucket_name}-terraform.state"
+   region = "us-east-1"
+}
+```
 Koden ovenfor må til for å forhindre at terraform prøver å opprette en ny s3 bucket dersom en allerede eksisterer.<br>
 &nbsp;<br>
-Vi ønsker å få innsyn til for eksempel antall recipies generert. For dette kan vi bruke AWS cloudwatch. Vi definerer en ny ressurs, og widgets (det vi ønsker å overvåke):<br>
+Vi ønsker å få innsyn til for eksempel antall recipies generert. For dette kan vi bruke AWS cloudwatch. Vi oppretter et dashboard, og tilhørende widgets (det vi ønsker å overvåke):<br>
+```hcl
+resource "aws_cloudwatch_dashboard" "main" {
+   dashboard_name = var.candidate_id
+   dashboard_body = <<YOURCHOSENNAME
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          [
+            "${var.candidate_id}",
+            "recipies_generated.value"
+          ]
+        ],
+        "period": 300,
+        "stat": "Maximum",
+        "region": "us-east-1",
+        "title": "Total number of recipies generated"
+      }
+    }
+  ]
+}
+YOURCHOSENNAME
+}
+```
 &nbsp;<br>
-<img src="img/img_terraform_widget.png" alt="Terraform Widget" width="600px"/><br>
-&nbsp;<br>
-<br>
 For å autumatisere denne prosessen, lager du en ny workflow. Denne kan for eksempel kjøre på hver push/ pull_request.
 Her setter du env variabler, for å autentisere seg mot AWS brukes AWS_ACCESSS_KEY_ID, AWS_SECRET_ACCESS_KEY som du tidligere satt som GitHub secrets, og terraform variabler. 
 Du definerer stegene for workflowen, terraform init, terraform plan, og terraform apply. <br>
 Slik kunne en sånn fil sett ut:<br>
-&nbsp;<br>
-![img.png](img/img_cloudwatch_workflow.png)
+```yaml
+name: "Terraform CloudWatch"
+defaults:
+   run:
+      working-directory: infra
+on:
+   pull_request:
+   workflow_dispatch:
+
+jobs:
+   terraform:
+      name: "Terraform"
+      runs-on: ubuntu-latest
+      env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         AWS_REGION: us-east-1
+         BUCKET_NAME: mybucket
+         CANDIDATE_EMAIL: my@email.com
+      steps:
+         - uses: actions/checkout@v3
+         - name: Setup Terraform
+           uses: hashicorp/setup-terraform@v2
+
+         - name: Terraform Init
+           id: init
+           run: terraform init
+
+         - name: Terraform Plan
+           id: plan
+           run: terraform plan  -var="bucket_name=$BUCKET_NAME" -var="candidate_email=CANDIDATE_EMAIL" -no-color
+           continue-on-error: false
+
+         - name: Terraform Apply
+           run: terraform apply -var="bucket_name=$BUCKET_NAME" -var="candidate_email=$CANDIDATE_EMAIL"  -auto-approve
+```
 &nbsp;<br>
 
 #### CloudWatch
