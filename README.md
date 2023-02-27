@@ -1,8 +1,7 @@
 ## Del 1 - Prinsipper
-
 ### Kontinuerlig integrasjon - hva mener vi med dette, og hvorfor er det viktig?
-**Kontinuerlig integrasjon** (CI), er en praksis som kombinerer prinsipper, verktøy og arbeidsmåter
-for å otimalisere prosessen rundt å merge endringer i kode til et delt repository (intern leveranse).
+**Kontinuerlig integrasjon** (CI), er en praksis der man kombinerer prinsipper, verktøy og arbeidsmetoder
+for å optimalisere prosessen rundt å merge endringer i kode til et delt repository (intern leveranse).
 <br>
 &nbsp;<br>
 **Tiden før kontinuerlig integrasjon**<br>
@@ -13,20 +12,23 @@ Tidligere har IT orginisasjoner følgt tradisjonell Vannfall arbeidsmetodikk. <b
 Vannfall arbeitsmetodikk fungerer slik at kode først utvikles i store batches,
 deretter testes den, for så å settes i produksjon. Disse stegene skjer sekvensielt,
 og det er ikke uvanlig at hver batch inneholder mange måneders arbeid. <br>
+
 Slike store batch størrelser har ofte svært negative koneskvenser.
 En av disse konsekvensene er forlenget lead time (LT). Dette er tiden som går fra kode er commited, til den deployes til produksjon.<br>
 Ved lang LT, mister man muligheten til å lære fra feil. Det er ingen som lærer noe av
 å bli presentert for en kodefeil de skrev for et halvt år siden. Det er også mer sannsynlig at samme feil
 gjentas. <br>
-Ved større batch størrelser, øker også sannsynligheten for merge konflikter. Dette kan føre til en "downward spiral": når merging av kode
+
+Ved større batch størrelser (her de interne leveransene / commits til main), øker også sannsynligheten for merge konflikter. Dette kan føre til en "downward spiral": når merging av kode
 blir en smertefull prosess, gjør man det sjeldnere. <br>
 Dette fører til at problemene hoper seg opp; hver merge blir mer smertefull enn den forrige.
 Man ender opp med å bruke store mengder tid på å løse disse konfliktene. Dette er tid som kunne blitt brukt på å utvikle nye
-features, eller andre gunstige aktiviteter. <br>
+features, eller andre gunstige aktiviteter.<br>
+
 Når integrasjons prosessen oppleves slik, utvikles ofte ukulturer innen orginisasjonen.
 De ansatte frykter å integrere sine kode endringer til main, da ingen ønsker å være den som får systemet til å kræsje.
 Denne frykten lager et "blame environment". Arbeid under slike kår
-fører til lavere produktivitet, og kan også ha store psykiske belastninger for dem som arbeider med systemet.
+fører til lavere produktivitet, og kan også ha store psykiske belastninger for dem som arbeider med systemet,
 om det er innen IT eller et annet felt.<br>
 
 "An organization’s output is directly related to how it communicates internally" <br>
@@ -37,17 +39,18 @@ En orginisasjon med ukulturer, vil automatisk ha dårligere output. Det å la ve
 å få skylden for brekk i kode / systemkollaps, er definivtivt en ukultur. Får å forbedre orginisasjonens output må man, ifølge Conoway's lov, 
 endre denne tankegangen.<br>
 &nbsp;<br>
-**Situasjonen i dag**<br>
+#### Situasjonen i dag
 For å løse problemene ovenfor, har orginisasjoner måttet endre sin tilnærming rundt det å utvikle og vedlikeholde IT-systemer.
 Man har migrert fra Vannfall arbeidsmetodikk, til Agile arbeidsmetodikk. Målet er å ha hyppige leveranser, og slik redusere batch størrelser, og ulempene
 store batch størrelser fører til. <br>
-Det er slik praksisen Kontinuerlig Integrasjon ble til. Under nevnes noen av nøkkelprinsippene/metodene som skal til for å tilrettelegge
-kontinuerlig integrasjon, og hvordan det løser problemene ovenfor. <br>
+Det er slik praksisen "Kontinuerlig Integrasjon" ble til. Under nevnes to av nøkkelprinsippene/metodene som skal til for å tilrettelegge
+kontinuerlig integrasjon, og hvordan det legger grunnlaget for å løse problemene ovenfor. <br>
 &nbsp;<br>
 **Trunk based development** - en arbeidsmetode som går ut på å la utviklere jobbe på hver sin branch, og regelmessig (så ofte som mulig) merge koden sin til et delt repository (main).<br>
-Når utvikleren ønsker å merge koden til main, lages en pull request. Da skal koden bygges, og tester kjøres.
-Hvis testene feiler, skal pull requesten avvises med begrunnelse.<br> 
+Når utviklere ønsker å merge koden til main, lages en pull request. Da skal koden bygges, og tester kjøres.
+Hvis testene feiler, skal pull requesten avvises.<br>
 Slik minsker man batch størrelsen, som igjen minsker sjanser for merge konflikter. <br>
+Man kan også sette inn andre mekanismer for å forebygge lav kodekvalitet, for eksempel obligatorisk peer reviews på hver pull request.
 &nbsp;<br>
 **Automatiserte Tester** - Dette er god praksis i alle prosjekter, men spesielt viktig når man jobber med komplekse systemer. <br>
 Selve definisjonen på et komplekst system er at det ikke finnes en enkelt person som forstår systemet fullt ut. Når ingen forstår systemet fullt ut, kan en utvikler gjøre 
@@ -57,11 +60,11 @@ som tester at endringene gjort, ikke fører til at systemet kommer i en "undeplo
 <br>
 
 Kontinuerlig integrasjon har også en positiv virkning på **kulturen** rundt det å gjøre endringer i kode. Når
-en utvikler vet at all ny kode/ endringer i gammel kode, kommer til å gå gjennom automatiserte tester
+en utvikler vet at all ny kode/ endringer i gammel kode, kommer til å gå gjennom grundige, automatiserte tester
 der eventuelle feil kommer til syne, minskes frykten rundt det å merge kode til main. Utvikleren får også
 rask tilbakemelding på kodekvalitet, og kan lære fra eventuelle feil. <br>
 Når man ikke frykter å gjøre endringer, samtidig som man kontinuerlig lærer fra tidligere feil, dyrkes 
-nytenking og eksperimentering. <br>
+en aktiv læringskultur. <br>
 Dette vil ifølge Conoway's lov føre til bedre systemer.<br>
 
 Kontinuerlig integrasjon tilrettelegger for andre DevOps praksiser, slik som kontinuerlige leveranser.<br>
@@ -71,26 +74,27 @@ Kontinuerlig integrasjon tilrettelegger for andre DevOps praksiser, slik som kon
 ### Kontinuerlig leveranser hva mener vi med dette, og hvorfor er det viktig?
 
 Kontinuerlige leveranser er en forlengelse av kontinuerlig integrasjon, hvor hensikten er 
-å forenkle/optimalisere "the deployment process", altså det å sette kode inn i produksjon (ekstern leveranse).<br>
+å forenkle/optimalisere leveranse prosessen (deployment process), altså det å sette kode inn i produksjon (ekstern leveranse).<br>
 Målet er å gjøre det mulig å deploye kode til produksjon, kun ved et tastetrykk. <br>
 For at dette skal være mulig, må kontinuerlig integrasjon være adoptert av orginisasjonen. 
-Omfattende tester må også være på plass, slik at man minsker risikoen for at noe går galt.
-Det er også mulig å automatisere hele denne prosessen, altså at kode settes i produksjon uten
+Omfattende, automatisert testing må også være på plass, slik at man minsker risikoen for at noe går galt.
+Det er også mulig å automatisere hele leveranse prosessen, altså at kode settes i produksjon uten
 noe form for "human intervention". Dette kalles Kontinuerlig Deployment, og er en forlengelse
 av kontinuerlig leveranser.
 <br>
 
-**Automatisere deployment-prosessen**<br>
+#### Automatisere deployment-prosessen
 Tradisjonelt sett har kode måtte evalueres av en kommite før den settes i produksjon,
 noe som ikke er ideelt da det fører til flere overleveringer (handoffs). For hver overlevering blir kunnskap tapt, da de som evaluerer koden 
-er "far from the source". Ved å automatisere deployment prosessen fjernes disse hierkiske prosessene, lead time (tiden fra koden commites, til den deployes til produksjon) reduseres ,
+er "far from the source", og skaper unødvendig byråkrati. Ved å automatisere deployment prosessen fjernes disse hierkiske prosessene, lead time (tiden fra koden commites, til den deployes til produksjon) reduseres ,
 og man lar de som er nærmest kjernen, nemlig teamene som daglig utvikler og drifter systemet, følge koden på hvert steg, fra commit, til det settes i produksjon.
 Hyppigere leveranser av mindre størrelser gjør også feilsøking enklere. 
 <br>
+&nbsp;<br>
 Så hvordan automatiserer vi deployment-prosessen? Man må først ha en forutsigbar måte å gjøre leveranser på. Kun etter man har dokumentert hvert steg prosessen,
 kan den automatiseres. Det er også viktig å sette istand mekanismer som gjør at man kan differansiere mellom deployment og release.<br>
-Før kontinuerlig leveranse, brukte man ofte ordene deployment og release om hverandre. Lead time var som regel såpass lang, at 
-all nødvendig kode for et spesielt feature "release", var på plass til tiden man deployet koden.<br>
+Før kontinuerlig leveranse, brukte man ofte ordene deployment og release om hverandre. Man gjorde seg oftest klar til en  release, hadde all kode samlet, og testet,
+og pushet all kodeenringer til produksjon samtidig.
 For bedrifter som nå har automatisert sin deployment prosess, og dermed redusert sin deployment lead time, må man differansiere mellom disse begrepene. 
 <br>
 &nbsp;<br>
@@ -118,22 +122,90 @@ Vannfall arbeitsmetodikk fungerer slik at kode først utvikles i store batches,
 deretter testes den, for så å setes i produksjon. Disse stegene skjer sekvensielt,
 og det er typisk mange måneders arbeid i hver batch. Utviklere får ingen / svært sen tilbakemelding på sin kode.
 Ved agil arbeidsmetodikk kan man la ver å godta kode som ikke inkluderer telemetri, mens dette er mye vanskeligere 
-ved Vannfall arbeidsmetodikk. Siden utviklere ikke er perfekte, er det sannsynlig at flere av orginisasjonens utviklere ikke 
-adopterer denne praksisen. Når man står foran et release, og står ovenfor kritiske problemer slik som merge konflikter, kan telemetri bli nedprioritert.
+ved Vannfall arbeidsmetodikk. Det er også sannsynlig at en orginisasjon som ikke adopterer DevOps prinsipper, ikke har kulturen
+som må til for å motivere sine ansatte til å utvikle gode praksiser rundt utvikling av telemetri.<br>
+Med andre ord, når man regelmessig står ovenfor problemer slik som komplekse merge konflikter, kan telemetri bli nedprioritert.
 
-Hvis man ønsker komplett telemetri er det også problematisk dersom orginisasjonen har et klart skille mellom drift- og utviklingsteam.
+Hvis man ønsker god telemetri er det også problematisk dersom orginisasjonen har et klart skille mellom drift- og utviklingsteam.
 Det skapes "information silos". 
 En informasjon silo er et begrep som brukes for å beskrive en situasjon der informasjon ikke deles mellom
 ulike deler av en orginisasjon. Dette kan føre til ineffektivitet og mangel på koordingering.
 -https://www.finanssenteret.as/hva-er-en-informasjonssilo/
 
 Når drift- og utviklingsteam ikke jobber på tvers av hverandre, kan man ende opp med at drift kun skaper telemetri relevant for drift, og utviklere
-kun skaper telemetri relevant for utviklere. Dette fører til inkomplett telemetri.
-Utviklere må integrere telemetri i sin daglige arbeidsrutine.
+kun skaper telemetri relevant for utviklere. God telemetri er også med på å skape læringskultur. Alle i organisasjonen får innblikk i hvordan systemet presterer, 
+noe som også kan føre til økt eierskap til eget arbeid. Dersom en feil skulle skje, og systemet svikter, 
+har man samlet data på business- applikasjon- og hardware nivå, og kan lettere feilsøkes og forebygges.
 
+### Forklar hvordan du kan implementere en løsning basert på tjenester i Amazon Webservices for å få denne oversikten. Hva må du konfigurere i AWS, og hva må du gjøre i applikasjonen?
+For å implementere dette kan vi bruke verktøyet terraform. Teraform er et "infrastruktur som kode" verktøy, og kan brukes for å få telemetri om bruk av hardware (eks: CPU), og også
+om applikajonen (antall oppskrifter generert etc.)
 
-## Del 2 - GitHub Actions 
+#### AWS
+Du bør ikke bruke din root user, men heller lage en IAM bruker, med nødvendige rettigheter. 
+Deretter genererer du en access key, dette er nødvendig for at vi senere skal kunne autentisere oss mot AWS. Da får du to verdier, en
+access key id, og en secret access key. Du må ta vare på secret access key, for denne verdien får du kun presentert en gang. <br>
+Du legger disse verdiene inn som secrets på ditt GitHub repository. Dette er for å gjøre automatisering av terraform koden mulig.<br>
+AWS_ACCESS_KEY_ID=access key id<br>
+AWS_SECRET_ACCESS_KEY=secret access key<br>
+AWS_REGION: regionen du bruker<br>
+&nbsp;<br>
+Du kan sette environment secret for ditt repository via GitHubs web interface slik: <br>
+settings &rarr; Secrets and Variables &rarr; Actions &rarr; New repository secret <br>
+&nbsp;
 
+#### Applikasjon
+Du oppretter først et nytt directory, du kan velge navn selv, her går vi for "infra". Deretter en providers.tf fil, hvor du definerer hvem som er provider (her AWS).
+Dette kommer til å se noenlunde slik ut: <br>
+&nbsp;<br>
+<img src="img/img_terraform_provider.png" alt="Provider file" width="350px"/>
+&nbsp;<br>
+Lag deretter en ny fil, variables.tf. ( Det er ikke nødvendig å skrive terraform kode i ulike filer, da all terraform kode prosesseres som en enkelt fil, men vi gjør det for ryddighetens skyld ).
+Her kan du legge inn variabel navn, som emailer og andre verdier som gjentas regelmessig i koden. Slik trenger man kun å gjøre endringer en plass dersom man ønsker å f eks endre email.
+Disse defineres når du kjører terraform plan/ apply. <br>
+&nbsp;<br>
+<img src="img/img_terraform_variables.png" alt="Terraform variables" width="250px"/><br>
+&nbsp;<br>
+Du må deretter konfigurere din backend. Vi kan bruke S3 buckets for å lagre metricsdata.<br>
+
+&nbsp;<br>
+<img src="img/img_terraform_s3_bucket.png" alt="Terraform s3 bucket" width="400px"/><br>
+&nbsp;<br>
+Ovenfor definerer vi en s3 bucket, denne brukes for å lagre våre metrics.<br>
+&nbsp;<br>
+<img src="img/img_terraform_backend.png" alt="Terraform s3 bucket" width="600px"/><br>
+&nbsp;<br>
+Koden ovenfor må til for å forhindre at terraform prøver å opprette en ny s3 bucket dersom en allerede eksisterer.<br>
+&nbsp;<br>
+Vi ønsker å få innsyn til for eksempel antall recipies generert. For dette kan vi bruke AWS cloudwatch. Vi definerer en ny ressurs, og widgets (det vi ønsker å overvåke):<br>
+&nbsp;<br>
+<img src="img/img_terraform_widget.png" alt="Terraform Widget" width="600px"/><br>
+&nbsp;<br>
+<br>
+For å autumatisere denne prosessen, lager du en ny workflow. Denne kan for eksempel kjøre på hver push/ pull_request.
+Her setter du env variabler, for å autentisere seg mot AWS brukes AWS_ACCESSS_KEY_ID, AWS_SECRET_ACCESS_KEY som du tidligere satt som GitHub secrets, og terraform variabler. 
+Du definerer stegene for workflowen, terraform init, terraform plan, og terraform apply. <br>
+Slik kunne en sånn fil sett ut:<br>
+&nbsp;<br>
+![img.png](img/img_cloudwatch_workflow.png)
+&nbsp;<br>
+
+#### CloudWatch
+Videre må du legge til nødvendige dependencies for å få CloudWatch til å fungere i pom.xml fil. Deretter må du konfigurere CloudWatch. 
+I dette emnet har dette blitt gjort i en fil kalt MetricsConfig. Her definerer du en bean "CloudWatchAsyncClient", setter nødvendige properties, og konfigurerer etter ønske.
+Controllere som leverer metrics, skal implementere interface ApplicationListener<ApplicationReadyEvent>. <br>
+For å implementere overvåking av antall oppskrifter generert, kan vi lage en metric av typen Gauge, som rapporterer antall oppskrifter vi har generert.
+
+```java
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        Gauge.builder("recipies_generated_count", recipies,
+                r -> r.values().size()).register(meterRegistry);
+    }
+```
+&nbsp;<br>
+
+## Del 2 - GitHub Actions
 ### Oppgave 1 - GitHub actions workflow
 
 Lag en github actions workflow som gjør følgende for hver pull request som lages i ditt repository:
@@ -153,7 +225,6 @@ Når du er inne på ditt repository, på GitHubs web interface trykk
 <br>
 - [ ] Settings &rarr; Branches &rarr; Add branch protection rule <br>
 - [ ] På "Branch name pattern", skriver du navne på branchen du ønsker å beskytte, i dette tilfelle skal du skrive "main".
-<br>uten at koden kompilerer og enhetstester kjører uten feil,
 - [ ] huk av "Require a pull request before merging"
 - [ ] etter du har gjort steget ovenfør bør en undermeny poppe opp, her huker du av "Require approvals",
 under ser du teksten "Required number of approvals before merging: 1". Dette er korrekt, da teksten sier vi skal 
@@ -164,7 +235,6 @@ ha godkjennelse fra minst en person.<br>
 ![img.png](img/img_branch_protection.png)
 
 ## Del 3 Docker
-
 ### Oppgave 1
 - [x] Skriv en multi stage Dockerfile for java-applikasjonen, slik at kompileringen og byggingen kjører i selvstendige Docker containere. 
 
@@ -187,7 +257,7 @@ git tag 1.0.0
 git push --tags
 ```
 &nbsp;<br>
-Du kans selvølgelig bruke den tagen du lnsker (det trenger ikke være 1.0.0)<br>
+Du kans selvfølgelig bruke den tagen du ønsker (det trenger ikke være 1.0.0)<br>
 
 2. **GitHub web interface:** <br>
 Gå inn på ditt repository &rarr; tags<br>
