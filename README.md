@@ -341,11 +341,11 @@ Du kans selvfølgelig bruke den tagen du ønsker (det trenger ikke være 1.0.0)<
 2. **GitHub web interface:** <br>
 Gå inn på ditt repository &rarr; tags<br>
 &nbsp;<br>
-   &nbsp;<img src="img/img_choose_tag.png" alt="Choose Tag" width="50%"/>
+   &nbsp;<img src="img/img_choose_tag.png" alt="Choose Tag" width="350px"/>
 &nbsp;<br>
    &nbsp;&rarr; create new release <br>
 &nbsp;<br>
-   &nbsp;<img src="img/img_configure_tagname.png" alt="Tagname" width="50%"/>
+   &nbsp;<img src="img/img_configure_tagname.png" alt="Tagname" width="450px%"/>
 &nbsp; <br>
    &nbsp;Skriv inn navn på tag (her 1.0.0).
 Scroll ned og trykk "Publish release".<br>
@@ -353,14 +353,14 @@ Scroll ned og trykk "Publish release".<br>
 
 Da vil workflow "**Docker Build**" automatisk kjøre, du kan se dette ved å trykke på "actions". <br>
 &nbsp;<br>
-<img src="img/img_actions_docker_build.png" alt="Github Actions Build" width="70%"/><br>
+<img src="img/img_actions_docker_build.png" alt="Github Actions Build" width="650px"/><br>
 &nbsp;<br>
 &nbsp;<br>
 Et nytt container image skal da pushes til din DockerHub konto. <br>
 Hvis du nå logger deg inn på DockerHub med samme brukernavn og passord du tidligere definerte i dine "environment secrets"
 kan du se ditt container image: <br>
 &nbsp;<br>
-<img src="img/img_dockerhub.png" alt="dockerhub image" width="40%"/>
+<img src="img/img_dockerhub.png" alt="dockerhub image" width="400px"/>
 &nbsp;<br>
 &nbsp;<br>
 
